@@ -24,3 +24,8 @@ AGENTS.md
 
 # Saved HTML dump of a rendered page, kept for local debugging only.
 h.html
+
+# Stale link to the previous deployment's Vercel project.
+.vercel.old-blitzplay.bak/
+
+.vercel

@@ -20,8 +20,9 @@ verified. Deployed contract is live on Monad testnet.
 | `npm run verify:flows` | 86/86 against local dev + Supabase |
 | `node scripts/verify-chain.mjs` | 16/16 against the live contract |
 
-**Live:** not yet deployed — see `DEPLOYMENT.md`. Vercel project is created
-under the `noumanpm@gmail.com` account.
+**Live:** https://buzzin-monad.vercel.app — Vercel project `buzzin-monad`
+under `noumanpm-gmailcoms-projects`, connected to the GitHub repo so pushes to
+`main` auto-deploy.
 
 **Repo:** https://github.com/Nouman-wp/Buzzin-Monad (git identity is set
 **local to this folder only**; the global identity is untouched).
@@ -368,6 +369,16 @@ loss. With limits set the same sweep would cost about 0.5 MON. **Rehearse with
 
 ## Operational notes
 
+**`vercel.json` pins `framework: nextjs`, and it must stay.** The Vercel
+project was first created with Framework Preset **Other**, which builds the app
+correctly — the log shows all 48 routes compiling — and then serves the result
+as a static site out of `public/`. There are no functions and no router, so
+*every* path returns a platform-level `NOT_FOUND`. Nothing in the build output
+hints at it; the deployment reads `● Ready` throughout. Pinning the framework in
+`vercel.json` rather than the dashboard keeps the fix in version control and
+applies it to the GitHub auto-deploys too.
+
+
 **A finished room releases its demo budget.** The budget is a cap on what may
 still be committed, so `syncReservation` in `server/rooms.ts` derives what each
 room holds from its status: a full house in the lobby, only the players who
@@ -377,8 +388,9 @@ parked its whole reservation forever — four abandoned rooms were sitting on 16
 of the 30 MON cap. Released at FINALIZING rather than COMPLETED on purpose:
 settlement pays out of the treasury account and never consults this number.
 
-**Treasury drains on every on-chain settlement.** Funded at 100 MON; ~99.85
-after the contract deploy and `verify-chain` — check with
+**Treasury drains on every on-chain settlement.** Funded at 100 MON; ~93.76
+after the contract deploy, `verify-chain`, and one production `verify:flows`
+(that last one settles a real 6-player game, so it moves ~6 MON into escrow) — check with
 `npm run treasury:status`, the number moves with every rehearsal. Escrow that
 no player claims stays locked in the contract — the operator deliberately
 cannot claw it back, because that power would also let it take funds players
@@ -414,13 +426,11 @@ is the only place a key belongs.
 
 ## Remaining / optional
 
-- **Google origins still need the production URL.** Add the deployed origin to
-  Authorised JavaScript origins on OAuth client `463522552778-…`, or the Google
-  button will not render and players fall back to the display-name form. The
-  client is shared with an earlier deployment; adding an origin is additive and
-  does not disturb it.
-- Connect the GitHub repo in the Vercel dashboard so pushes to `main`
-  auto-deploy. Until then, deploy with `vercel deploy --prod`.
+- **Google origins are not wildcarded.** `https://buzzin-monad.vercel.app` is
+  on OAuth client `463522552778-…`; any further origin you serve from needs
+  adding explicitly, or the Google button silently does not render and players
+  fall back to the display-name form. The client is shared with an earlier
+  deployment; adding an origin is additive and does not disturb it.
 - **No Gemini key configured**, so the Game Master runs its deterministic path.
   Adding `AI_API_KEY` switches it on with no code change; failures fall back
   automatically.
