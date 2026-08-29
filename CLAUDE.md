@@ -369,6 +369,20 @@ loss. With limits set the same sweep would cost about 0.5 MON. **Rehearse with
 
 ## Operational notes
 
+**Reclaim escrow BEFORE resetting the demo data, never after.**
+`scripts/reclaim-escrow.mjs` finds what to sweep by reading room documents out
+of Supabase and hashing each id into its on-chain game id
+(`keccak256("blitzplay:" + roomId)`). The admin demo reset deletes exactly
+those rows. Reset first and the escrow is still in the contract but nothing
+knows which game ids to claim against, so `reclaim:escrow` reports
+`0 across 0 rooms` while the contract plainly still holds a balance. That has
+already happened once here: 2.126 MON is stranded from the production
+verification run. It is recoverable in principle by scanning the contract's own
+events for game ids and player addresses instead of the database, but the
+script does not do that today. The cheap habit is to run `npm run
+reclaim:escrow --confirm` before Admin → Demo tools, or to rehearse with
+`NEXT_PUBLIC_SETTLEMENT_CONTRACT_ADDRESS` blank so no escrow exists at all.
+
 **`vercel.json` pins `framework: nextjs`, and it must stay.** The Vercel
 project was first created with Framework Preset **Other**, which builds the app
 correctly — the log shows all 48 routes compiling — and then serves the result
