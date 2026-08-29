@@ -1,0 +1,354 @@
+@import 'tailwindcss';
+
+/*
+  BuzzIn visual identity — "obsidian & violet".
+
+  Near-black surfaces with a faint violet undertone, one shiny purple accent,
+  and an editorial serif for display type. Everything interactive glows the
+  same purple; everything else is a quiet neutral so the game content and the
+  numbers are the only things that shout.
+*/
+
+@theme {
+  /*
+    Ink scale — black first, violet second.
+
+    The surfaces used to carry a heavy violet cast (#140e1f, #2a1f3d), which
+    made every panel look tinted rather than dark. The hue is unchanged; the
+    saturation on the dark end is roughly a third of what it was, so the chrome
+    reads as black with a purple undertone and the accent is the only thing on
+    screen that is actually purple.
+
+    The muted text steps (400 and 500) are also a shade brighter than they
+    were: they carry most of the body copy, and at the old values they sat
+    close to the AA floor on a phone in a bright room.
+  */
+  --color-ink-950: #040305;
+  --color-ink-900: #08070c;
+  --color-ink-850: #0d0b12;
+  --color-ink-800: #131119;
+  --color-ink-700: #1c1923;
+  --color-ink-600: #272231;
+  --color-ink-500: #453e56;
+  --color-ink-400: #6f6788;
+  --color-ink-300: #9c93b3;
+  --color-ink-200: #c6bfd8;
+  --color-ink-100: #eae7f2;
+  --color-ink-50: #faf9fd;
+
+  /* The accent — shiny violet. */
+  --color-volt-600: #6d28d9;
+  --color-volt-500: #8b5cf6;
+  --color-volt-400: #a78bfa;
+  --color-volt-300: #c4b5fd;
+
+  /* Semantic tones. */
+  --color-mint-500: #16d39a;
+  --color-mint-400: #3ee5b1;
+  --color-amber-500: #f5a524;
+  --color-rose-500: #f43f6b;
+  --color-sky-500: #818cf8;
+
+  /* Fonts are injected by next/font in app/layout.tsx. */
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+  --font-serif:
+    var(--font-display-serif), 'Iowan Old Style', Georgia, 'Times New Roman',
+    serif;
+  --font-mono:
+    var(--font-jetbrains-mono), ui-monospace, 'SFMono-Regular', 'Cascadia Mono',
+    Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --radius-card: 20px;
+}
+
+:root {
+  color-scheme: dark;
+  --surface: var(--color-ink-900);
+  --surface-raised: var(--color-ink-850);
+  --hairline: color-mix(in srgb, var(--color-volt-300) 11%, transparent);
+  --hairline-strong: color-mix(in srgb, var(--color-volt-300) 20%, transparent);
+}
+
+* {
+  border-color: var(--hairline);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-ink-950);
+  color: var(--color-ink-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Stops iOS bouncing the whole page while a round is in play. */
+  overscroll-behavior-y: none;
+}
+
+/*
+  Ambient light, in two strengths.
+
+  The app used to paint three overlapping violet radials behind every single
+  page. On the landing page, sitting over a photograph, that reads as
+  atmosphere. On a dashboard or a game screen it reads as wallpaper — the
+  purple haze becomes the loudest thing on screen and every card floats on a
+  coloured cloud instead of on black.
+
+  So the default is near-black with one whisper of violet at the very top, just
+  enough to keep the surface from looking like a dead LCD, and the richer wash
+  is opt-in for the marketing page that actually wants it.
+*/
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    60rem 22rem at 50% -12%,
+    color-mix(in srgb, var(--color-volt-500) 7%, transparent),
+    transparent 70%
+  );
+}
+
+/* The full wash. Rendered by the landing page, behind its own backdrop. */
+.ambient-wash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(60rem 90rem at -12% 35%, color-mix(in srgb, var(--color-volt-500) 17%, transparent), transparent 58%),
+    radial-gradient(52rem 26rem at 50% -8%, color-mix(in srgb, var(--color-volt-400) 9%, transparent), transparent 60%),
+    radial-gradient(44rem 40rem at 108% 108%, color-mix(in srgb, var(--color-volt-600) 8%, transparent), transparent 55%);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-volt-500) 40%, transparent);
+}
+
+/* Focus is always visible and always the same shape. */
+:focus-visible {
+  outline: 2px solid var(--color-volt-400);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Tabular numerals stop scores and timers from jittering as they change. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1;
+}
+
+.hairline {
+  border-color: var(--hairline);
+}
+
+/* ------------------------------------------------------------------- chrome */
+
+/* Frosted glass for sticky navigation bars. */
+.glass {
+  background: color-mix(in srgb, var(--color-ink-950) 72%, transparent);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+}
+
+/* Editorial display type — the AnchorVault-style serif headline. */
+.font-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Shiny purple text: an animated sheen sweeping across a violet gradient. */
+.text-shine {
+  background: linear-gradient(
+    110deg,
+    var(--color-volt-400) 0%,
+    var(--color-volt-300) 22%,
+    #f1eaff 40%,
+    var(--color-volt-300) 58%,
+    var(--color-volt-400) 100%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: bz-sheen 5.5s ease-in-out infinite;
+}
+
+/* Static violet gradient text, for places where motion would distract. */
+.text-violet-gradient {
+  background: linear-gradient(120deg, var(--color-volt-300), var(--color-volt-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Purple bloom behind cards and buttons that deserve it. */
+.glow-volt {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--color-volt-400) 32%, transparent),
+    0 8px 40px -12px color-mix(in srgb, var(--color-volt-500) 55%, transparent);
+}
+
+/* A card that lights its top edge — the signature panel treatment. */
+.panel-lit {
+  position: relative;
+}
+
+.panel-lit::before {
+  content: '';
+  position: absolute;
+  inset: 0 12% auto 12%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--color-volt-400) 60%, transparent),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ motion */
+
+@keyframes bz-rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bz-pop {
+  0% {
+    transform: scale(0.94);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bz-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@keyframes bz-shimmer {
+  from {
+    background-position: -160% 0;
+  }
+  to {
+    background-position: 260% 0;
+  }
+}
+
+@keyframes bz-sheen {
+  0%,
+  100% {
+    background-position: 0% 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes bz-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+@keyframes bz-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-rise {
+  animation: bz-rise 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-pop {
+  animation: bz-pop 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-pulse-soft {
+  animation: bz-pulse 1.6s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: bz-shake 400ms ease-in-out both;
+}
+
+.animate-float {
+  animation: bz-float 6s ease-in-out infinite;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-ink-800) 25%,
+    var(--color-ink-700) 45%,
+    var(--color-ink-800) 65%
+  );
+  background-size: 220% 100%;
+  animation: bz-shimmer 1.4s linear infinite;
+}
+
+/* Respect the system preference — gameplay must never depend on motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ------------------------------------------------------------- scrollbars */
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-600) transparent;
+}
+
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--color-ink-600);
+  border-radius: 999px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}

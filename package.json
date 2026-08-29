@@ -1,0 +1,49 @@
+{
+  "name": "buzzin",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "gen:audio": "node scripts/generate-audio.mjs",
+    "contract:build": "node scripts/compile-contract.mjs",
+    "contract:deploy": "node scripts/deploy-contract.mjs",
+    "treasury:status": "node scripts/treasury-status.mjs",
+    "verify:flows": "node scripts/verify-flows.mjs",
+    "vercel:env": "node scripts/vercel-env.mjs",
+    "reclaim:escrow": "node scripts/reclaim-escrow.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.0",
+    "framer-motion": "^13.1.1",
+    "jsqr": "^1.4.0",
+    "next": "^16.3.3",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "viem": "^2.56.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@tailwindcss/postcss": "^4.1.14",
+    "@types/node": "^22.18.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "eslint": "^9.38.0",
+    "eslint-config-next": "^16.3.3",
+    "solc": "^0.8.36",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

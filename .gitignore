@@ -1,0 +1,26 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+.env
+.env.local
+.env*.local
+*.log
+npm-debug.log*
+.DS_Store
+coverage/
+.vercel
+next-env.d.ts
+contracts/out/
+tsconfig.tsbuildinfo
+
+AGENTS.md
+
+.env*
+
+# The template must be committed; the blanket .env* rule above would eat it.
+!.env.example
+
+# Saved HTML dump of a rendered page, kept for local debugging only.
+h.html
