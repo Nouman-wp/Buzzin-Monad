@@ -42,6 +42,24 @@
   --color-volt-400: #a78bfa;
   --color-volt-300: #c4b5fd;
 
+  /*
+    Leaf — the green in the mark.
+
+    The logo is a lime leaf with a violet bolt cut through it, and until now
+    only the bolt had reached the interface. These steps are sampled from the
+    artwork itself (dominant #97d545, running #4a9924 to #c9e465) rather than
+    picked to taste, so the accent is the logo's own green.
+
+    Used sparingly and always next to volt: a warmer top stop on the primary
+    button, the hover rim on secondary, and one faint radial in the ambient
+    wash. The product still reads violet — this is the second colour, not a
+    new one.
+  */
+  --color-leaf-600: #4a9924;
+  --color-leaf-500: #76bb37;
+  --color-leaf-400: #97d545;
+  --color-leaf-300: #c9e465;
+
   /* Semantic tones. */
   --color-mint-500: #16d39a;
   --color-mint-400: #3ee5b1;
@@ -109,11 +127,17 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(
-    60rem 22rem at 50% -12%,
-    color-mix(in srgb, var(--color-volt-500) 7%, transparent),
-    transparent 70%
-  );
+  background:
+    radial-gradient(
+      60rem 22rem at 50% -12%,
+      color-mix(in srgb, var(--color-volt-500) 7%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      34rem 14rem at 16% -8%,
+      color-mix(in srgb, var(--color-leaf-500) 4%, transparent),
+      transparent 72%
+    );
 }
 
 /* The full wash. Rendered by the landing page, behind its own backdrop. */
@@ -125,7 +149,8 @@ body::before {
   background:
     radial-gradient(60rem 90rem at -12% 35%, color-mix(in srgb, var(--color-volt-500) 17%, transparent), transparent 58%),
     radial-gradient(52rem 26rem at 50% -8%, color-mix(in srgb, var(--color-volt-400) 9%, transparent), transparent 60%),
-    radial-gradient(44rem 40rem at 108% 108%, color-mix(in srgb, var(--color-volt-600) 8%, transparent), transparent 55%);
+    radial-gradient(44rem 40rem at 108% 108%, color-mix(in srgb, var(--color-volt-600) 8%, transparent), transparent 55%),
+    radial-gradient(36rem 28rem at 86% 10%, color-mix(in srgb, var(--color-leaf-500) 7%, transparent), transparent 58%);
 }
 
 ::selection {

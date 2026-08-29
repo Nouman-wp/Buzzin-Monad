@@ -32,19 +32,25 @@ export const BUTTON_BASE =
 export const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
   // A top-lit gradient with a hairline rim and an inner highlight. The rim is
   // what keeps it crisp against both the dark UI and the landing photograph.
+  // The gradient's top stop carries a sixth of the mark's leaf green, so the
+  // button warms as it lifts rather than staying flat violet, and the drop
+  // glow is mixed the same way. It is deliberately slight: at this ratio the
+  // button still reads purple, and the green only registers next to the logo.
   primary:
-    'text-white bg-gradient-to-b from-volt-400 to-volt-600 ' +
+    'text-white bg-gradient-to-b ' +
+    'from-[color-mix(in_srgb,var(--color-volt-400)_84%,var(--color-leaf-400))] to-volt-600 ' +
     'ring-1 ring-inset ring-white/15 ' +
-    'shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_1px_2px_rgba(0,0,0,0.35),0_10px_30px_-12px_var(--color-volt-500)] ' +
+    'shadow-[inset_0_1px_0_rgba(255,255,255,0.28),0_1px_2px_rgba(0,0,0,0.35),0_10px_30px_-12px_color-mix(in_srgb,var(--color-volt-500)_80%,var(--color-leaf-500))] ' +
     'hover:-translate-y-px hover:brightness-[1.07] ' +
-    'hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.34),0_2px_4px_rgba(0,0,0,0.35),0_16px_40px_-12px_var(--color-volt-500)] ' +
+    'hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.34),0_2px_4px_rgba(0,0,0,0.35),0_16px_40px_-12px_color-mix(in_srgb,var(--color-volt-500)_72%,var(--color-leaf-500))] ' +
     'active:translate-y-0 active:brightness-95 ' +
     'active:shadow-[inset_0_2px_5px_rgba(0,0,0,0.28),0_1px_2px_rgba(0,0,0,0.3)]',
   secondary:
     'text-ink-100 bg-ink-850/70 backdrop-blur-md ' +
     'ring-1 ring-inset ring-[var(--hairline-strong)] ' +
     'shadow-[inset_0_1px_0_rgba(255,255,255,0.06),0_1px_2px_rgba(0,0,0,0.25)] ' +
-    'hover:-translate-y-px hover:bg-ink-800/90 hover:text-ink-50 hover:ring-volt-500/35 ' +
+    'hover:-translate-y-px hover:bg-ink-800/90 hover:text-ink-50 ' +
+    'hover:ring-[color-mix(in_srgb,var(--color-leaf-500)_34%,transparent)] ' +
     'hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.09),0_8px_22px_-14px_rgba(0,0,0,0.9)] ' +
     'active:translate-y-0 active:bg-ink-850',
   ghost: 'text-ink-300 hover:bg-ink-800/60 hover:text-ink-50 active:bg-ink-800/80',
