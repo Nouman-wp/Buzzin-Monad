@@ -498,7 +498,6 @@ flowchart TB
 
 **Why not Privy or RainbowKit?** `@privy-io/react-auth` v3 pulls ~200 transitive Solana packages, and RainbowKit brings wagmi, a query client, a WalletConnect project id and a provider around the whole tree — to deliver the one thing this app actually needs: Google auth plus an automatic EVM wallet. Google Identity Services meets that requirement with **zero npm dependencies**, and `components/shared/use-wallet.ts` speaks **EIP-1193 directly with EIP-6963 discovery** in ~200 lines. `lib/auth/session.ts` is the documented swap seam if Privy is ever wanted back.
 
-> ⚠️ **Consequence, stated plainly:** derived wallets are **custodial**. That is what makes cash-out gasless for players who hold no MON, and it is clearly labelled as a testnet demo property.
 
 ---
 
